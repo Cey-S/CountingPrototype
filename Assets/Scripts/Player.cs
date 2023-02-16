@@ -57,10 +57,10 @@ public class Player : MonoBehaviour
 
             if(transform.position == worldPosition)
             {
-                if (movingToDropBall)
+                if (movingToDropBall && holdingBall)
                 {
                     currentBall.parent = null;
-                    currentBall.position = new Vector3(0, 3.0f, 0);
+                    currentBall.position = new Vector3(Random.Range(-0.1f, 0.1f), 3.0f, Random.Range(-0.1f, 0.1f));
                     currentBall.GetComponent<Rigidbody>().isKinematic = false;
                     holdingBall = false;
                 }
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
             {
                 currentBall = collision.transform;
                 currentBall.SetParent(transform);
-                currentBall.localPosition = new Vector3(0, 0, 0.85f);
+                currentBall.localPosition = new Vector3(0, 0.8f, 0.7f); // holds above head
                 currentBall.GetComponent<Rigidbody>().isKinematic = true;
 
                 holdingBall = true;

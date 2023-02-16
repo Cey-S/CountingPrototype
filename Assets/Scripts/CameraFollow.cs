@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public Vector3 followOffset;
 
+    private Vector3 followOffset;
     private Vector3 desiredPos;
     private Vector3 velocity = Vector3.zero;
     public float smoothTime = 0.3f;
@@ -14,7 +14,7 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        followOffset = transform.position - target.position;
     }
 
     // Update is called once per frame
