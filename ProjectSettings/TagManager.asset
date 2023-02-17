@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ball
   - box
+  - restricted
   layers:
   - Default
   - TransparentFX

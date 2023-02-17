@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 20f)] float moveSpeed;
     private bool moving;
     private bool holdingBall;
-    private bool movingToDropBall;
+    private bool movingToDropBall; // for when the player clicks on the box
+    private bool restrictedArea;
     private Transform currentBall;
     // Start is called before the first frame update
     void Start()
@@ -68,6 +69,12 @@ public class Player : MonoBehaviour
                 moving = false;
             }
         }
+
+        if (restrictedArea)
+        {
+            moving = false;
+            transform.position -= transform.forward * 0.01f; // creates a bumping effect around the box;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -83,6 +90,22 @@ public class Player : MonoBehaviour
 
                 holdingBall = true;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("restricted"))
+        {
+            restrictedArea = true;
+        }    
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("restricted"))
+        {
+            restrictedArea = false;
         }
     }
 
