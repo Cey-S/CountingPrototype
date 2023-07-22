@@ -10,20 +10,12 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 5f)] private float rotationSpeed;
     private Vector3 screenPosition;
     private Vector3 worldPosition;
-    private Vector3 ballDropPosition;
     [SerializeField] [Range(0f, 20f)] float moveSpeed;
     private bool moving;
     private bool holdingBall;
-    private bool movingToDropBall; // for when the player clicks on the box
     private bool restrictedArea;
     private Transform currentBall;
-    // Start is called before the first frame update
-    void Start()
-    {
-        ballDropPosition = new Vector3(0, transform.position.y, 4.0f);
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -33,20 +25,9 @@ public class Player : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
 
             if(Physics.Raycast(ray, out RaycastHit hit, 100, layersToHit))
-            {
-                if (hit.collider.CompareTag("box"))
-                {
-                    worldPosition = ballDropPosition; //behind the box
-                    movingToDropBall = true;
-                }
-                else
-                {
-                    worldPosition = hit.point;
-                    worldPosition.y = transform.position.y;
-                    movingToDropBall = false;
-                }                
-                
-                //transform.position = worldPosition;
+            {                
+                worldPosition = hit.point;
+                worldPosition.y = transform.position.y;
                 moving = true;
                 StartRotating();
             }
@@ -58,20 +39,20 @@ public class Player : MonoBehaviour
 
             if(transform.position == worldPosition)
             {
-                if (movingToDropBall && holdingBall)
-                {
-                    currentBall.parent = null;
-                    currentBall.position = new Vector3(Random.Range(-0.1f, 0.1f), 3.0f, Random.Range(-0.1f, 0.1f));
-                    currentBall.GetComponent<Rigidbody>().isKinematic = false;
-                    holdingBall = false;
-                }
-
                 moving = false;
             }
         }
 
-        if (restrictedArea)
+        if (restrictedArea) // player touches the box
         {
+            if (holdingBall)
+            {
+                currentBall.parent = null;
+                currentBall.position = new Vector3(Random.Range(-0.1f, 0.1f), 3.0f, Random.Range(-0.1f, 0.1f));
+                currentBall.GetComponent<Rigidbody>().isKinematic = false;
+                holdingBall = false;
+            }
+
             moving = false;
             transform.position -= transform.forward * 0.01f; // creates a bumping effect around the box;
         }
