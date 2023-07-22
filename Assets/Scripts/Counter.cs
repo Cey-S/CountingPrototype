@@ -14,7 +14,9 @@ public class Counter : MonoBehaviour
     private int Count_Red = 0;
     private int Count_Blue = 0;
     private int Count_Green = 0;
-
+    private bool isRedDone;
+    private bool isBlueDone;
+    private bool isGreenDone;
 
     private void Start()
     {
@@ -29,7 +31,7 @@ public class Counter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<Ball>() != null)
+        if (other.GetComponent<Ball>() != null)
         {
             currentBallColor = other.GetComponent<Ball>().ballColor;
 
@@ -48,6 +50,23 @@ public class Counter : MonoBehaviour
                     CounterText_Green.text = "Green: " + Count_Green + " / " + GameManager.Instance.ballsInScene_Green;
                     break;
             }
+
+            if (isCounterDone())
+            {
+                GameManager.Instance.LoadNewScene();
+            }
         }
+    }
+
+    private bool isCounterDone()
+    {
+        if (Count_Red.Equals(GameManager.Instance.ballsInScene_Red) && 
+            Count_Blue.Equals(GameManager.Instance.ballsInScene_Blue) && 
+            Count_Green.Equals(GameManager.Instance.ballsInScene_Green))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,9 +20,10 @@ public class GameManager : MonoBehaviour
     public Transform Down_Top;
     public Transform Down_Bottom;
     public Transform Left;
-    public Transform Right;    
+    public Transform Right;
 
-    //private GameObject[] balls;
+    [Header("UI")]
+    public Text refreshText;
 
     private void Awake()
     {
@@ -120,7 +123,25 @@ public class GameManager : MonoBehaviour
 
     private int BallsToSpawn()
     {
-        int amount = Random.Range(1, 5);
+        int amount = Random.Range(1, 4);
         return amount;
+    }
+
+    public void LoadNewScene()
+    {
+        StartCoroutine(RefreshSceneInSeconds(5));
+    }
+
+    IEnumerator RefreshSceneInSeconds(int seconds)
+    {
+        int counter = seconds;
+        while (counter > 0)
+        {
+            refreshText.text = $"All gathered!\nRefresh scene in {counter}...";
+            yield return new WaitForSeconds(1);
+            counter--;
+        }
+
+        SceneManager.LoadScene(0);
     }
 }
