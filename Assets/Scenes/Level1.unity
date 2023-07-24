@@ -785,6 +785,7 @@ MonoBehaviour:
   layersToHit:
     serializedVersion: 2
     m_Bits: 8
+  bumpEffect: 0.08
   rotationSpeed: 0.5
   moveSpeed: 15
 --- !u!54 &685675104
@@ -1826,7 +1827,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.5, y: 4, z: 4.5}
+  m_Size: {x: 5, y: 4, z: 5}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!4 &2115984392
 Transform:

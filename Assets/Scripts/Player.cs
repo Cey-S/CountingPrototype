@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public LayerMask layersToHit;
+    public float bumpEffect = 0.01f;
 
     private Coroutine LookCoroutine;
     [SerializeField] [Range(0f, 5f)] private float rotationSpeed;
@@ -54,17 +55,19 @@ public class Player : MonoBehaviour
             }
 
             moving = false;
-            transform.position -= transform.forward * 0.01f; // creates a bumping effect around the box;
+            transform.position -= transform.forward * bumpEffect; // creates a bumping effect around the box;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("ball"))
+        Ball ball = collision.transform.GetComponent<Ball>();
+
+        if (ball != null)
         {
-            if (!holdingBall)
+            if (!holdingBall && !ball.isInBox)
             {
-                currentBall = collision.transform;
+                currentBall = ball.transform;
                 currentBall.SetParent(transform);
                 currentBall.localPosition = new Vector3(0, 0.8f, 0.7f); // holds above head
                 currentBall.GetComponent<Rigidbody>().isKinematic = true;

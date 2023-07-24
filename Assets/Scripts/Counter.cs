@@ -31,9 +31,13 @@ public class Counter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Ball>() != null)
+        Ball ball = other.GetComponent<Ball>();
+
+        if (ball != null && !ball.isInBox)
         {
-            currentBallColor = other.GetComponent<Ball>().ballColor;
+            ball.isInBox = true;
+
+            currentBallColor = ball.ballColor;
 
             switch (currentBallColor)
             {

@@ -6,4 +6,5 @@ public enum BallColor { Red, Blue, Green}
 public class Ball : MonoBehaviour
 {
     public BallColor ballColor;
+    public bool isInBox;
 }
